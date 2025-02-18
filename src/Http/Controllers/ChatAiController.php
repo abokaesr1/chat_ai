@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Salamat\chat_ai\Model\Question;
-use Salamat\chat_ai\Helper\OpenAIHelper;
+use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class ChatAiController extends Controller
 {
@@ -44,10 +45,10 @@ class ChatAiController extends Controller
             return response()->json(['answers' => $matchingAnswers]);
         } else {
             // get the answer from the chatpgt fucntion below
-            $chatPgtResponse = OpenAIHelper::getAiResponse($userMessage);
+            $chatPgtResponse = $this->getAiResponse($userMessage);
             if (isset($chatPgtResponse['error']['code']) && $chatPgtResponse['error']['code'] === 'insufficient_quota') {
                 // get the gimini answer
-                $giminiResponse = OpenAIHelper::getGeminiResponse($userMessage);
+                $giminiResponse = $this->getGeminiResponse($userMessage);
                 if (isset($giminiResponse['candidates'][0]['content']['parts'][0]['text'])) {
                     $answer = $giminiResponse['candidates'][0]['content']['parts'][0]['text'];
                     $formattedAnswer = Str::markdown($answer);
@@ -70,7 +71,7 @@ class ChatAiController extends Controller
                     return response()->json(['answers' => $formattedAnswer]);
                 } else {
 
-                    $google_searchResponse = OpenAIHelper::searchGoogle($userMessage);
+                    $google_searchResponse = $this->searchGoogle($userMessage);
 
                     if ($google_searchResponse['items'] > 0) {
                         if (!empty($google_searchResponse['spelling'])) {
@@ -113,5 +114,74 @@ class ChatAiController extends Controller
             $defaultResponse = "Sorry, your request is not there. Please try something else.";
             return response()->json(['answers' => [$defaultResponse]]);
         }
+    }
+
+    function getAiResponse($content)
+    {
+        try {
+            $response = Http::withHeaders([
+                "Content-Type" => "application/json",
+                "Authorization" => "Bearer " . env('CHATGPT_API_KEY')
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                "model" => 'gpt-4o-mini',
+                "store" =>  true,
+                "messages" => [
+                    [
+                        "role" => "user",
+                        "content" => $content
+                    ],
+                ],
+
+            ])->body();
+
+            return $response['choices'][0]['message']['content'];
+
+            // Decode JSON response
+            $responseData = json_decode($response->body(), true);
+
+            // Check if response has the expected data
+            if (isset($responseData['choices'][0]['message']['content'])) {
+                return $responseData['choices'][0]['message']['content'];
+            }
+
+            return "Sorry, something went wrong with ChatGPT's response.";
+        } catch (Throwable $e) {
+            // Custom error message
+            return [
+                "error" => [
+                    "code" => "insufficient_quota",
+                    "message" => "An error occurred while fetching the response from ChatGPT."
+                ]
+            ];
+        }
+    }
+
+    function searchGoogle($query)
+    {
+        $apiKey = env('GOOGLE_SEARCH_API_KEY');
+        $cx = env('GOOGLE_SEARCH_CX');
+        $url = "https://www.googleapis.com/customsearch/v1?q={$query}&key={$apiKey}&cx={$cx}";
+
+        $response = Http::get($url);
+        return $response->json();
+    }
+
+    function getGeminiResponse($data)
+    {
+        $apiKey = env('GEMINI_API_KEY');
+
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}";
+
+        $response = Http::post($url, [
+            "contents" => [
+                [
+                    "role" => "user",
+                    "parts" => [
+                        ["text" => $data]
+                    ]
+                ]
+            ]
+        ]);
+        return $response->json();
     }
 }
