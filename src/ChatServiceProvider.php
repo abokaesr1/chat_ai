@@ -22,14 +22,14 @@ class ChatServiceProvider extends ServiceProvider
         // Load the Assets
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/chat_ai'),
-            __DIR__ . '/../public/js' => public_path('js/chat_ai'),
-            __DIR__ . '/../public/css' => public_path('css/chat_ai'),
-            __DIR__ . '/../public/images' => public_path('images/chat_ai'),
-        ], 'chat_assets');
-        $this->publishes([
-            // publish the database
             __DIR__ . '/../database/migrations' => database_path('migrations'),
-        ], 'chat-migrations');
+            __DIR__ . '/../resources/views' => resource_path('views/chat_ai'),
+
+
+        ], 'ChatAI', true);
+        // add the provider dynmic
+        app()->register(ChatServiceProvider::class);
+
 
         //$this->mergeConfigFrom(__DIR__ . '/../config/chat_ai.php', 'chat_ai');
     }
