@@ -1,6 +1,6 @@
 {
     "name": "salamat/chat_ai",
-    "description": "create a chat that can be easly integrate with some of AI tools like chatGPT or Gemini and even with database where it will train it self by checking if the answer is in database otherwis  get the answer from the AI Tools that you have integrated with.",
+    "description": "The Chat AI Laravel Package is a smart chatbot integration for Laravel applications. It dynamically retrieves responses from multiple sources, prioritizing efficiency and accuracy",
     "type": "library",
     "license": "MIT",
     "authors": [
