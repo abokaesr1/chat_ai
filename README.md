@@ -291,62 +291,6 @@ php artisan vendor\:publish --tag=public
 
 
 
-\`\`\`blade
-
-\<link rel="stylesheet" href="{{ asset('vendor/chat\_ai/style.css') }}">
-
-\`\`\`
-
-
-
-\### 3. Example CSS (\`style.css\`)
-
-
-
-\`\`\`css
-
-.chat-container {
-
-&#x20;   background-color: #f8f9fa;
-
-&#x20;   border-radius: 10px;
-
-&#x20;   padding: 15px;
-
-&#x20;   max-width: 600px;
-
-&#x20;   margin: auto;
-
-}
-
-
-
-.chat-message {
-
-&#x20;   background-color: #007bff;
-
-&#x20;   color: #fff;
-
-&#x20;   padding: 10px;
-
-&#x20;   border-radius: 5px;
-
-&#x20;   margin-bottom: 10px;
-
-}
-
-
-
-.chat-message.user {
-
-&#x20;   background-color: #28a745;
-
-}
-
-\`\`\`
-
-
-
 \## Configuration
 
 
