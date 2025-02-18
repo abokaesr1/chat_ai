@@ -3,7 +3,7 @@
         'name' => 'mohammadsalamat/chat_ai',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'bf514a2211f20c084f14e52b163b7ec33e6d1658',
+        'reference' => 'c4a438f0cda4ae41b8f3540f74164e0cfceb902f',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -40,7 +40,7 @@
         'mohammadsalamat/chat_ai' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'bf514a2211f20c084f14e52b163b7ec33e6d1658',
+            'reference' => 'c4a438f0cda4ae41b8f3540f74164e0cfceb902f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

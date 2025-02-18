@@ -13,9 +13,9 @@ class ComposerStaticInit252a8697f042ef878ee1bd1cf57f0839
     );
 
     public static $prefixLengthsPsr4 = array (
-        's' => 
+        'S' => 
         array (
-            'salamat\\chat_ai\\' => 16,
+            'Salamat\\chat_ai\\' => 16,
         ),
         'P' => 
         array (
@@ -31,7 +31,7 @@ class ComposerStaticInit252a8697f042ef878ee1bd1cf57f0839
     );
 
     public static $prefixDirsPsr4 = array (
-        'salamat\\chat_ai\\' => 
+        'Salamat\\chat_ai\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
