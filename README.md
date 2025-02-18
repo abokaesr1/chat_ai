@@ -287,9 +287,6 @@ php artisan vendor\:publish --tag=public
 
 
 
-\### 2. Include the CSS in Blade Template
-
-
 
 \## Configuration
 
