@@ -1,0 +1,18 @@
+{
+    "name": "salamat/chat_ai",
+    "description": "create a chat that can be easly integrate with some of AI tools like chatGPT or Gemini and even with database where it will train it self by checking if the answer is in database otherwis  get the answer from the AI Tools that you have integrated with.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohammad Salamat"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "salamat\\chat_ai\\": "src/"
+        }
+    }
+}
