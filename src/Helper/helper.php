@@ -1,6 +1,6 @@
 <?php
 
-namespace Salamat\chat_ai\App\Http\Helper;
+namespace Salamat\chat_ai\Helper;
 
 use Illuminate\Support\Facades\Http;
 use Throwable;
@@ -12,7 +12,7 @@ class OpenAIHelper
         try {
             $response = Http::withHeaders([
                 "Content-Type" => "application/json",
-                "Authorization" => "Bearer " . env('CHATGPT_API_KEY')
+                "Authorization" => "Bearer " . env('CHAT_GPT_KEY')
             ])->post('https://api.openai.com/v1/chat/completions', [
                 "model" => 'gpt-4o-mini',
                 "store" =>  true,
@@ -47,18 +47,20 @@ class OpenAIHelper
         }
     }
 
-    public static function searchGoogle($query)
+    public static  function searchGoogle($query)
     {
-        $apiKey = env('GOOGLE_SEARCH_API_KEY');
-        $cx = env('GOOGLE_SEARCH_CX');
+        $apiKey = 'AIzaSyDmZuEdvOGObABhaZAqPeHuZT0iZWy3eRI';
+        $cx = 'e17c63701a1a84a85';
         $url = "https://www.googleapis.com/customsearch/v1?q={$query}&key={$apiKey}&cx={$cx}";
+
         $response = Http::get($url);
         return $response->json();
     }
 
-    public static function getGeminiResponse($data)
+    public static  function getGeminiResponse($data)
     {
-        $apiKey = env('GEMINI_API_KEY');
+        $apiKey = 'AIzaSyBOpKIGHBNMTm-NvzUPVXkVF9fltiGVPhk';
+
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}";
 
         $response = Http::post($url, [

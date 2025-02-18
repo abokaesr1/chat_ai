@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Salamat\chat_ai\App\Http\Controllers\ChatAI\ChatAiController;
+use Salamat\chat_ai\Http\Controllers\ChatAI\ChatAiController;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,13 +1,13 @@
 <?php
 
-namespace Salamat\chat_ai\App\Http\Controllers\ChatAI;
+namespace Salamat\chat_ai\Http\Controllers\ChatAI;
 
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Salamat\chat_ai\App\Models\Question;
-use Salamat\chat_ai\App\Http\Helper\OpenAIHelper;
+use Salamat\chat_ai\Models\Question;
+use Salamat\chat_ai\Helper\OpenAIHelper;
 
 class ChatAiController extends Controller
 {
