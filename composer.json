@@ -17,5 +17,12 @@
         "psr-4": {
             "salamat\\chat_ai\\": "src/"
         }
+    },
+    "extra": {
+        "laravel" : {
+            "providers": [
+                "salamat\\chat_ai\\ChatAiServiceProvider"
+            ]
+        }
     }
 }
