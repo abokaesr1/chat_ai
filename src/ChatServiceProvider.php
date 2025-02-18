@@ -21,11 +21,8 @@ class ChatServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'Salamat/chat_ai');
         // Load the Assets
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/chat_ai'),
             __DIR__ . '/../database/migrations' => database_path('migrations'),
             __DIR__ . '/../resources/views' => resource_path('views/chat_ai'),
-
-
         ], 'ChatAI', true);
         // add the provider dynmic
         app()->register(ChatServiceProvider::class);
