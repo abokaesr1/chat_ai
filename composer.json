@@ -1,5 +1,5 @@
 {
-    "name": "salamat/chat_ai",
+    "name": "mohammadsalamat/chat_ai",
     "description": "The Chat AI Laravel Package is a smart chatbot integration for Laravel applications. It dynamically retrieves responses from multiple sources, prioritizing efficiency and accuracy",
     "type": "library",
     "license": "MIT",
