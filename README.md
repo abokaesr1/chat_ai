@@ -37,6 +37,7 @@ php artisan vendor:publish --tag=chat-ai-config
 ```sh
 php artisan migrate
 ```
+This will run the migrations and create a new database table called 'Questions'
 
 ### 4. Add API Keys to `.env`
 
@@ -54,37 +55,52 @@ GOOGLE_SEARCH_CX=your_google_search_cx
 ### 1. Use in Controller or Route
 
 ```php
-use Salamat\ChatAi\ChatAiService;
+use Salamat\chat_ai\Http\Controllers\ChatAiController;
 
-$chat = new ChatAiService();
-$response = $chat->getResponse('What is Laravel?');
-
-return response()->json($response);
+public function sendMessage(Request $request, ChatAiController $controller)
+    {
+        $response = $controller->generateText($request);
+        return $response;
+    }
 ```
+### OR you can use the normal format
 
+```php
+use Salamat\chat_ai\Http\Controllers\ChatAiController;
+
+public function sendMessage(Request $request )
+    {
+        $controller = new ChatAiController();
+        $response = $controller->generateText($request);
+        return $response;
+    }
+```
+### Create a Post Route to send a message to the chat
+
+```php
+
+Route::post('/sendMessage', [Controller::class, 'sendMessage']);
+
+```
 ### 2. Frontend Integration
 
-Make an AJAX request to your Laravel endpoint:
+Make an AJAX request to your Laravel endpoint: you will find a custom view (resources/views/chat_ai) including the following Ajax request.
 
 ```js
-fetch('/chat-ai/query', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ message: 'What is Laravel?' })
-})
+ fetch('/sendMessage', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token properly placed
+                            },
+
+                            body: JSON.stringify({
+                                message: messageText
+                            })
+                        })
 .then(response => response.json())
 .then(data => console.log(data));
 ```
-
-## Styling
-
-### 1. Publish Public Assets
-
-```sh
-php artisan vendor:publish --tag=public
-```
-
-
 
 ## Configuration
 
@@ -101,4 +117,3 @@ Feel free to submit pull requests or open issues for bug fixes and feature reque
 ## License
 
 This package is open-source and available under the [MIT License](LICENSE).
-
