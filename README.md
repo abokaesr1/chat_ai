@@ -1,119 +1,129 @@
-# Chat AI Laravel Package
+# **Chat AI Laravel Package**  
 
-## Overview
+## **Overview**  
 
-The **Chat AI Laravel Package** is a smart chatbot integration for Laravel applications. It dynamically retrieves responses from multiple sources, prioritizing efficiency and accuracy:
+The **Chat AI Laravel Package** is an intelligent chatbot integration for Laravel applications. It retrieves responses dynamically from multiple sources, ensuring accuracy and efficiency:  
 
-1. **Database** – Checks for an existing response.
-2. **ChatGPT** – If not found in the database, it queries OpenAI's ChatGPT.
-3. **Gemini AI** – If ChatGPT reaches its limit, it switches to Google Gemini.
-4. **Google Search** – If no AI-generated response is available, it fetches relevant search results.
-5. **Self-Learning** – If an answer is not found, it is stored in the database for future queries.
+1. **Database** – Checks for an existing response.  
+2. **ChatGPT** – If no response is found in the database, it queries OpenAI’s ChatGPT.  
+3. **Gemini AI** – If ChatGPT reaches its limit, it switches to Google Gemini.  
+4. **Google Search** – If no AI-generated response is available, it fetches relevant search results.  
+5. **Self-Learning** – If an answer is not found, it is stored in the database for future queries.  
 
-## Features
+## **Features**  
 
-- **Multi-source response system** (Database → ChatGPT → Gemini → Google Search).
-- **Self-learning AI** – Stores new questions and answers.
-- **Efficient fallback mechanism** for continuous availability.
-- **Simple API interface** for easy integration.
-- **Optimized for performance** using caching and similarity checks.
+- **Multi-source response system** (Database → ChatGPT → Gemini → Google Search).  
+- **Self-learning AI** – Stores new questions and answers.  
+- **Efficient fallback mechanism** for uninterrupted responses.  
+- **Simple API interface** for easy integration.  
+- **Optimized for performance** with caching and similarity checks.  
 
-## Installation
+## **Installation**  
 
-### 1. Install via Composer
+### **1. Install via Composer**  
+
+Run the following command to install the package:  
 
 ```sh
 composer require mohammadsalamat/chat_ai
-```
+```  
 
-### 2. Publish Configuration (Optional)
+### **2. Publish Configuration (Optional)**  
 
 ```sh
-php artisan vendor:publish --tag=chat-ai-config
-```
+php artisan vendor:publish
+```  
 
-### 3. Run Migrations
+This command publishes the migration and view files.  
+
+### **3. Run Migrations**  
 
 ```sh
 php artisan migrate
-```
-This will run the migrations and create a new database table called 'Questions'
+```  
 
-### 4. Add API Keys to `.env`
+This creates a new database table called `questions` to store chatbot interactions.  
 
-Obtain API keys for OpenAI, Gemini, and Google Search, then update your `.env` file:
+### **4. Add API Keys to `.env`**  
+
+Obtain API keys for OpenAI, Gemini, and Google Search, then update your `.env` file:  
 
 ```env
 CHATGPT_API_KEY=your_chatgpt_api_key
 GEMINI_API_KEY=your_gemini_api_key
 GOOGLE_SEARCH_API_KEY=your_google_search_api_key
 GOOGLE_SEARCH_CX=your_google_search_cx
-```
+```  
 
-## Usage
+## **Usage**  
 
-### 1. Use in Controller or Route
+### **1. Use in a Controller or Route**  
+
+#### **Dependency Injection Approach**  
 
 ```php
 use Salamat\chat_ai\Http\Controllers\ChatAiController;
 
 public function sendMessage(Request $request, ChatAiController $controller)
-    {
-        $response = $controller->generateText($request);
-        return $response;
-    }
-```
-### OR you can use the normal format
+{
+    return $controller->generateText($request);
+}
+```  
+
+#### **Instantiating the Controller Manually**  
 
 ```php
 use Salamat\chat_ai\Http\Controllers\ChatAiController;
 
-public function sendMessage(Request $request )
-    {
-        $controller = new ChatAiController();
-        $response = $controller->generateText($request);
-        return $response;
-    }
-```
-### Create a Post Route to send a message to the chat
+public function sendMessage(Request $request)
+{
+    $controller = new ChatAiController();
+    return $controller->generateText($request);
+}
+```  
+
+### **2. Create a POST Route to Send a Message**  
 
 ```php
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 
 Route::post('/sendMessage', [Controller::class, 'sendMessage']);
+```  
 
-```
-### 2. Frontend Integration
+### **3. Frontend Integration**  
 
-Make an AJAX request to your Laravel endpoint: you will find a custom view (resources/views/chat_ai) including the following Ajax request.
+Send an AJAX request to your Laravel endpoint. A custom view is available at `resources/views/chat_ai`, including the following AJAX request:  
 
 ```js
- fetch('/sendMessage', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token properly placed
-                            },
-
-                            body: JSON.stringify({
-                                message: messageText
-                            })
-                        })
+fetch('/sendMessage', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF token for security
+    },
+    body: JSON.stringify({
+        message: messageText
+    })
+})
 .then(response => response.json())
 .then(data => console.log(data));
-```
+```  
 
-## Configuration
+## **Configuration**  
 
-The package includes a config file located at `config/chat_ai.php` where you can customize settings such as:
+The package includes a configuration file located at `config/chat_ai.php`, where you can customize settings such as:  
 
-- API Limits
-- Similarity Threshold
-- Caching Options
+- **API Limits**  
+- **Similarity Threshold**  
+- **Caching Options**  
 
-## Contributing
+## **Contributing**  
 
-Feel free to submit pull requests or open issues for bug fixes and feature requests.
+Feel free to submit pull requests or open issues for bug fixes and feature requests.  
 
-## License
+## **License**  
 
-This package is open-source and available under the [MIT License](LICENSE).
+This package is open-source and available under the [MIT License](LICENSE).  
+
+---
