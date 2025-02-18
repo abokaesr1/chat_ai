@@ -12,7 +12,7 @@ class OpenAIHelper
         try {
             $response = Http::withHeaders([
                 "Content-Type" => "application/json",
-                "Authorization" => "Bearer " . env('CHAT_GPT_KEY')
+                "Authorization" => "Bearer " . env('CHATGPT_API_KEY')
             ])->post('https://api.openai.com/v1/chat/completions', [
                 "model" => 'gpt-4o-mini',
                 "store" =>  true,
@@ -49,8 +49,8 @@ class OpenAIHelper
 
     public static function searchGoogle($query)
     {
-        $apiKey = env('SEARCH_GOOGLE_KEY');
-        $cx = 'e17c63701a1a84a85';
+        $apiKey = env('GOOGLE_SEARCH_API_KEY');
+        $cx = env('GOOGLE_SEARCH_CX');
         $url = "https://www.googleapis.com/customsearch/v1?q={$query}&key={$apiKey}&cx={$cx}";
         $response = Http::get($url);
         return $response->json();
@@ -58,7 +58,7 @@ class OpenAIHelper
 
     public static function getGeminiResponse($data)
     {
-        $apiKey = env('GEMINI_KEY');
+        $apiKey = env('GEMINI_API_KEY');
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}";
 
         $response = Http::post($url, [

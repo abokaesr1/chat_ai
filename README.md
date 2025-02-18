@@ -23,7 +23,7 @@ The **Chat AI Laravel Package** is a smart chatbot integration for Laravel appli
 ### 1. Install via Composer
 
 ```sh
-composer require salamat/chat-ai
+composer require mohammadsalamat/chat_ai
 ```
 
 ### 2. Publish Configuration (Optional)
