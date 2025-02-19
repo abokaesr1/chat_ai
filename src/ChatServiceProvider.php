@@ -20,10 +20,10 @@ class ChatServiceProvider extends ServiceProvider
         // Load the Views
         $this->loadViewsFrom(__DIR__ . '/../src/views', 'Salamat/chat_ai');
         // Load the Config
-        $this->mergeConfigFrom(__DIR__ . '/../config/chat.php', 'chat');
+        $this->mergeConfigFrom(__DIR__ . '/../src/config/chat.php', 'chat');
         // Load the Assets
         $this->publishes([
-            __DIR__ . '/../config/chat.php' => config_path('chat.php'),
+            __DIR__ . '/../src/config/chat.php' => config_path('chat.php'),
             __DIR__ . '/../src/migrations' => database_path('migrations'),
             __DIR__ . '/../src/views' => resource_path('views/chat_ai'),
         ], 'ChatAI');
