@@ -33,8 +33,8 @@ class ChatAiController extends Controller
             $similarity = 0;
             similar_text(strtolower($userMessage), strtolower($question->question), $similarity);
 
-            // Set a threshold for similarity (adjust as needed)
-            $threshold = 30; // 60% similarity
+            // Set a threshold for similarity (adjust as needed) from the configration file
+            $threshold = config('chat.threshold', 70); // 70% similarity
 
             if ($similarity >= $threshold) {
                 $matchingAnswers[] = $question;
@@ -63,7 +63,7 @@ class ChatAiController extends Controller
                         [
                             'status' => 'success',
                             'question' => $userMessage,
-                            'answer' => $answer,
+                            'answer' => $formattedAnswer,
                             'refrence' => 'gemini',
                         ]
                     ];
@@ -110,18 +110,19 @@ class ChatAiController extends Controller
             } else {
                 // Check if response has the expected data
                 if (isset($responseData['choices'][0]['message']['content'])) {
+                    $formattedAnswer = Str::markdown($responseData['choices'][0]['message']['content']);
 
                     // add the data to our database to train data from ChatGPT
                     $train_data  = new Question();
                     $train_data->question =  $userMessage;
-                    $train_data->answer = $responseData['choices'][0]['message']['content'];
+                    $train_data->answer = $formattedAnswer;
                     $train_data->refrence = 'ChatGPT';
                     $train_data->save();
                     $sentData = [
                         [
                             'status' => 'success',
                             'question' => $userMessage,
-                            'answer' => $responseData['choices'][0]['message']['content'],
+                            'answer' => $formattedAnswer,
                             'refrence' => 'ChatGPT',
                         ]
                     ];
