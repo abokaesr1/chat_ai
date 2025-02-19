@@ -1,7 +1,10 @@
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.1.2/css/material-design-iconic-font.min.css">
+
 <style>
     * {
-        font-size: 1.3vw;
-        font-family: "Epilogue", sans-serif;
+        font-size: 17px;
+        font-family: "Montserrat", sans-serif;
     }
 
     html {
@@ -24,7 +27,7 @@
 
     body .card #header {
         height: 5vw;
-        background: #000;
+        background: linear-gradient(280deg, rgba(193, 69, 151, 1) 0%, rgba(81, 0, 88, 1) 62%);
         padding: 0vw;
     }
 
@@ -77,11 +80,24 @@
     }
 
     body .card .message-section #user #user-response {
-        color: #fff;
+        color: #000;
     }
 
     #bot-response {
         color: #000;
+    }
+
+    .chat-info p,
+    .chat-info ul,
+    .chat-info li,
+    .chat-info a,
+    .chat-info div {
+
+        font-size: 17px;
+        margin: 0;
+        padding: 0;
+        line-height: 1.3,
+            list-style: none;
     }
 
     body .card .message-section .message {
@@ -178,7 +194,7 @@
 </style>
 <div class="card">
     <div id="header">
-        <h1>Chatter box!</h1>
+        <h1>CHAT AI</h1>
     </div>
     <div class="message-section" id="chatMessages">
 
@@ -202,23 +218,23 @@
 
             let chatMessages = document.getElementById('chatMessages');
             let userMessage = `
-           <div class="message" id="bot">
-            <div class="chat-info">
-                <div class="info-details">
-                    <img src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
-                        class="image-bot" alt="">
-                    <span class="info-name">User</span>
+            <div class="message" id="bot">
+                <div class="chat-info">
+                    <div class="info-details">
+                        <img src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
+                            class="image-bot" alt="">
+                        <span class="info-name">User</span>
+                    </div>
+                    <div class="time">
+                        now
+                    </div>
                 </div>
-                <div class="time">
-                    now
-                </div>
+                <span id="bot-response">${messageText}</span>
             </div>
-            <span id="bot-response">${messageText}</span>
-        </div>
         `;
             chatMessages.insertAdjacentHTML('beforeend', userMessage);
             messageInput.value = '';
-            fetch('/generatetext', {
+            fetch('/sendMessage', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -231,7 +247,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    let formattedResponse = data.answers[0].answer
+                    let formattedResponse = data.answers[0].answer;
+                    let refrenceAnswer = data.answers[0].refrence;
 
                     let botResponse = `
                 <div class="message" id="user">
@@ -239,7 +256,7 @@
                         <div class="info-details">
                             <img src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"
                                 class="image-bot" alt="">
-                            <span class="info-name">Bot</span>
+                            <span class="info-name">${refrenceAnswer}</span>
                         </div>
                         <div class="time">
                             now

@@ -64,13 +64,12 @@ class ChatAiController extends Controller
                             'status' => 'success',
                             'question' => $userMessage,
                             'answer' => $answer,
-                            'reference' => 'gemini',
+                            'refrence' => 'gemini',
                         ]
                     ];
 
-                    return response()->json(['answers' => $formattedAnswer]);
+                    return response()->json(['answers' => $sentData]);
                 } else {
-
                     $google_searchResponse = $this->searchGoogle($userMessage);
 
                     if ($google_searchResponse['items'] > 0) {
@@ -109,7 +108,25 @@ class ChatAiController extends Controller
                     return response()->json(['answers' => $sentData]);
                 }
             } else {
-                dd($chatPgtResponse);
+                // Check if response has the expected data
+                if (isset($responseData['choices'][0]['message']['content'])) {
+
+                    // add the data to our database to train data from ChatGPT
+                    $train_data  = new Question();
+                    $train_data->question =  $userMessage;
+                    $train_data->answer = $responseData['choices'][0]['message']['content'];
+                    $train_data->refrence = 'ChatGPT';
+                    $train_data->save();
+                    $sentData = [
+                        [
+                            'status' => 'success',
+                            'question' => $userMessage,
+                            'answer' => $responseData['choices'][0]['message']['content'],
+                            'refrence' => 'ChatGPT',
+                        ]
+                    ];
+                }
+                return "Sorry, something went wrong with ChatGPT's response.";
             }
             $defaultResponse = "Sorry, your request is not there. Please try something else.";
             return response()->json(['answers' => [$defaultResponse]]);
@@ -131,7 +148,6 @@ class ChatAiController extends Controller
                         "content" => $content
                     ],
                 ],
-
             ])->body();
 
             return $response['choices'][0]['message']['content'];
@@ -139,12 +155,7 @@ class ChatAiController extends Controller
             // Decode JSON response
             $responseData = json_decode($response->body(), true);
 
-            // Check if response has the expected data
-            if (isset($responseData['choices'][0]['message']['content'])) {
-                return $responseData['choices'][0]['message']['content'];
-            }
-
-            return "Sorry, something went wrong with ChatGPT's response.";
+            return $responseData;
         } catch (Throwable $e) {
             // Custom error message
             return [
