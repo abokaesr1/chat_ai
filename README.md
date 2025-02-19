@@ -8,7 +8,32 @@ The **Chat AI Laravel Package** is an intelligent chatbot integration for Larave
 2. **ChatGPT** – If no response is found in the database, it queries OpenAI’s ChatGPT.  
 3. **Gemini AI** – If ChatGPT reaches its limit, it switches to Google Gemini.  
 4. **Google Search** – If no AI-generated response is available, it fetches relevant search results.  
-5. **Self-Learning** – If an answer is not found, it is stored in the database for future queries.  
+5. **Self-Learning** – If an answer is not found, it is stored in the database for future queries. 
+
+### How It Works  
+
+The chatbot follows a structured search approach:  
+
+1. **Database Lookup**  
+   - The chatbot first searches the database for a response.  
+   - Admins can manually add a list of questions and answers.  
+   - If the user's question is at least **70% similar** (adjustable via the config file) to a stored question, it retrieves the answer.  
+
+2. **ChatGPT Integration**  
+   - If no answer is found in the database, it queries ChatGPT.  
+   - The response is then stored in the database to reduce API usage and allow admin modifications.  
+
+3. **Fallback to Gemini AI**  
+   - If ChatGPT is inactive or has reached its limit, the chatbot switches to **Gemini AI** and follows the same process.  
+
+4. **Google Search**  
+   - If neither ChatGPT nor Gemini AI provides an answer, it fetches relevant data using Google Search.  
+
+### Provides  
+
+- **Simple Blade View** – A minimal and customizable chat interface.  
+- **Lightweight Controller** – A clean structure to handle requests and responses.  
+- **Database Migration** – Stores previous queries and responses for improved efficiency.  
 
 ## **Features**  
 
